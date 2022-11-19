@@ -10,7 +10,13 @@ class Square:
         self.color = color
 
     def draw(self, canvas):
-        pass
+        with Image.open(f'{canvas}.png') as image:
+            data = np.asarray(image)
+            data = data.copy()
+            data[self.y:self.y+self.side, self.x:self.x+self.side] = self.color
+            img = Image.fromarray(data, 'RGB')
+            img.save(f'{canvas}.png')
+
 
 
 class Rectangle:
@@ -22,7 +28,12 @@ class Rectangle:
         self.color = color
 
     def draw(self, canvas):
-        pass
+        with Image.open(f'{canvas}.png') as image:
+            data = np.asarray(image)
+            data = data.copy()
+            data[self.y:self.y + self.height, self.x:self.x + self.width] = self.color
+            img = Image.fromarray(data, 'RGB')
+            img.save(f'{canvas}.png')
 
 
 class Canvas:
@@ -32,4 +43,8 @@ class Canvas:
         self.color = color
 
     def make(self, imagepath):
-        pass
+        data = np.zeros((self.height, self.width, 3), dtype=np.uint8)
+        if self.color == 'white':
+            data[:] = [255, 255, 255]
+        img = Image.fromarray(data, 'RGB')
+        img.save(f'{imagepath}.png')
